@@ -105,11 +105,13 @@ performConsensusClustering <- function(exprFile, # expression data file with sam
   cat(getTime(), ncol(data), " Highly variable features (based on sd) included in analysis.", "\n", sep = "")
   
   # change output folder to the highly variable features
-  outputFolder <- paste(outputFolder, paste0("nFeatures_", nVarexpr, "_nReps_", nReps), sep = "/")
+  # outputFolder <- paste(outputFolder, paste0("nFeatures_", nVarexpr, "_nReps_", nReps), sep = "/")
+  outputFolder <- paste(outputFolder, paste0("nFeatures_", nVarexpr, "_nReps_", nReps, "_maxK", maxK.sample, "_", maxK.expr), sep = "/")
+  
   if (!dir.exists(outputFolder)) dir.create(outputFolder) # this will be the default folder from now on
   
   # save data files
-  dir.create(paste(outputFolder, "data", sep = "/")) # to save data file
+  if (!dir.exists(paste(outputFolder, "data", sep = "/"))) dir.create(paste(outputFolder, "data", sep = "/")) # to save data file
   write.csv(data, file = paste(outputFolder, "data/expr_data_preprocessed.csv", sep = "/"), row.names = TRUE)
   write.csv(traitData, file = paste(outputFolder, "data/trait_data_preprocessed.csv", sep = "/"), row.names = TRUE)
   file.copy(from = exprFile, to = paste(outputFolder, "data/expr_data_raw.csv", sep = "/"))
