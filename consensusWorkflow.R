@@ -21,8 +21,8 @@ file.remove("template.slurm.sh")
 rm(shFile, shFile2)
 
 ##### Step 2: Open project_name.R file from the project folder and provide values for arguments to perform consensus clustering
-##### Step 3: login to MAB
-  # Copy the project folder to consensus requests folder, say /mount/modac/rupa/consensusRequests
+##### Step 3: login to the cluster
+  # Copy the project folder to consensus requests folder, say /mount/a_cluster_folder/yourfolder/consensusRequests
   # cd to the project folder
   # sh the slurm file
 
