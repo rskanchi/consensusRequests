@@ -125,3 +125,18 @@ Advantage of HPC execution is that you
 - can run multiple jobs simultaneously, with different parameters like distance metrics, clustering algorithms, etc.
 
 ---
+
+```{r}
+
+# how to add specific colors to the annotations on top (for discrete traits)
+# annotColor <- list(
+#   "diagnosis" = c("disease1" = "#009E73", "disease1" = "#CC79A7", "disease1" = "#0072B2"), 
+#   "condition" = c(absent = "#009E73", possible = "#999999", definite = "#661100"),
+#   "gender" = c("Female" = "#CC79A7", "Male" = "#0072B2")
+#   "Trait1" = c("normal" = "blue", "severe" = "red"),  
+#   "Trait2" = c("LTE12" = "blue", "GT12" = "red"),
+# )
+
+#c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+```
