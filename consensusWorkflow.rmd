@@ -1,0 +1,127 @@
+---
+title: "Consensus Clustering Workflow"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: united
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE, warning = FALSE, message = FALSE)
+```
+
+# Overview
+
+This workflow guides you through setting up and running consensus clustering analysis. You can run the analysis in two ways:
+
+- **Local**: Run directly on your local laptop/PC
+- **HPC cluster**: Submit as a batch job to a high-performance computing cluster
+
+---
+
+# Prerequisites
+
+Before starting, ensure you are in the `consensusClustR` folder with `required_files` folder containing:
+
+- `template.slurm.sh`
+- `template.R`
+- `performConsensusClustering.R`
+
+The `performConsensusClustering.R` file should contain the following functions:
+
+- `getTime()`
+- `getConsensusClusters()`
+- `performConsensusClustering()`
+
+---
+
+# Project setup
+
+Provide a descriptive name for your project <Lastname_ProjectInfo>:  
+
+```{r project-setup, echo=TRUE, eval=FALSE}
+
+project_name <- "Lastname_ProjectId"  # Change this to your project name
+dir.create(project_name)
+
+# copy required template files to project folder
+file.copy("required_files/template.slurm.sh", to = project_name)
+file.copy("required_files/template.R", to = project_name)
+file.copy("required_files/performConsensusClustering.R", to = project_name)
+
+```
+
+Go to the project folder and customize template files.  
+
+```{r configure-files, echo=TRUE, eval=FALSE}
+# Set working directory to project folder
+setwd(project_name)
+
+# Update SLURM script with project name
+shFile <- readLines("template.slurm.sh", warn = FALSE)
+shFile2 <- gsub(pattern = "project_name", replace = project_name, x = shFile)
+writeLines(shFile2, con = paste0(project_name, ".slurm.sh"))
+
+# Rename template R script
+file.rename(from = "template.R", to = paste0(project_name, ".R"))
+
+# Clean up 
+file.remove("template.slurm.sh")
+rm(shFile, shFile2)
+
+```
+
+**Note:** After running this chunk, you should see the following files in your project folder:
+
+- `<project_name>.R` - Main analysis script.  
+- `<project_name>.slurm.sh` - HPC submission script.  
+- `performConsensusClustering.R` - Required functions.  
+
+---
+
+# Analysis setup
+
+Open the `<project_name>.R` file from your project folder and provide values for the consensus clustering arguments.
+
+Choose one of the following methods based on your computing environment:
+
+## Run locally
+
+Use this option for smaller datasets or when you want to run interactively. In the `<project_name>.R` file, execute the `source()` and `performConsensusClustering()` functions in your R session.   
+
+Best part of local execution is that you  
+- can debug interactively when there's an error
+- make changes you want in the code and see the outcome immediately!
+- don't have a queue as in the cluster environment  
+
+---
+
+## Run on HPC cluster
+
+Use this option for large datasets or computationally intensive analyses. Ensure your HPC cluster uses SLURM workload manager.
+
+- From your **local terminal** copy the project folder to a desired cluster location (consensus cluster folder, if you have one). You can use the `scp` command for transfer or the approach you use (like FileZilla).  
+- Login to cluster and go to the project folder.  
+
+TBA - an environment for consensus clustering.   
+
+- Submit the SLURM job.
+
+```{bash submit-slurm, eval=FALSE}
+# Submit the SLURM job
+sbatch <project_name>.slurm.sh
+```
+
+- Once the job is complete, transfer results back to your local machine.  
+
+Advantage of HPC execution is that you
+- have more computational resources
+- your local machine will not slow down, which happens when you try performing consensus clustering with large datasets locally
+- can run multiple jobs simultaneously, with different parameters like distance metrics, clustering algorithms, etc.
+
+---
