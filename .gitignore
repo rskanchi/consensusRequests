@@ -52,3 +52,5 @@ rsconnect/
 # Other files
 Error_Cstack.rtf
 consensusWorkflow_MAB.R
+*.png
+*.html
